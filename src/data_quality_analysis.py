@@ -40,6 +40,6 @@ def analyze_quality(df):
             print(f"Нульових значень у колонці {col}: {zero_count}")
 
 
-if name == "main":
+if __name__ == "__main__":
     data = load_data()
     analyze_quality(data)

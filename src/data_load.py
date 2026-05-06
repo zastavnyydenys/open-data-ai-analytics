@@ -14,7 +14,7 @@ def load_data(file_path="../data/raw/dataset.csv"):
         return None
 
 
-if name == "main":
+if __name__ == "__main__":
     data = load_data()
 
     if data is not None:

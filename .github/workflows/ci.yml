@@ -40,23 +40,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Жорстке встановлення необхідних бібліотек
           pip install pandas matplotlib seaborn simpy
 
-      - name: Create Mock Data
-        run: |
-          # Генеруємо фейковий датасет на льоту, щоб скрипти не падали від нестачі файлу
-          mkdir -p data/raw
-          echo "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" > data/raw/reestrtz01.01.2026.csv
-          echo "TOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН" >> data/raw/reestrtz01.01.2026.csv
-
       - name: Run module
-        # Наша розумна умова (працює краще, ніж у друга)
         if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
         run: |
           mkdir -p artifacts/${{ matrix.module }}
           echo "Запускаємо скрипт src/${{ matrix.module }}.py..."
-          # Якщо скрипт падає, показуємо лог на екрані і зупиняємо конвеєр з помилкою
+          
           python src/${{ matrix.module }}.py > artifacts/${{ matrix.module }}/run.log 2>&1 || (cat artifacts/${{ matrix.module }}/run.log && exit 1)
 
       - name: Upload artifacts

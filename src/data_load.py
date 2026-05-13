@@ -1,7 +1,21 @@
 import pandas as pd
+import sys
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-def load_data(file_path="../data/raw/dataset.csv"):
+if os.environ.get("CI") == "true":
+    print(" Запуск у хмарі (CI/CD): Використовуємо ТЕСТОВИЙ датасет.")
+    DEFAULT_PATH = BASE_DIR / "data" / "raw" / "test_data.csv"
+else:
+
+    print("Локальний запуск: Використовуємо ПОВНИЙ датасет.")
+    DEFAULT_PATH = BASE_DIR / "data" / "raw" / "dataset.csv"
+
+
+def load_data(file_path=DEFAULT_PATH):
 
     print(f"Спроба завантажити дані з: {file_path}")
 
@@ -18,7 +32,6 @@ if __name__ == "__main__":
     data = load_data()
 
     if data is not None:
-
         pd.set_option('display.max_columns', None)
         pd.set_option('display.width', 1000)
 
@@ -26,3 +39,4 @@ if __name__ == "__main__":
         print(data.head(3))
     else:
         print("\nДані не завантажились. Перевірте наявність файлу.")
+        sys.exit(1)

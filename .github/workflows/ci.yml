@@ -26,10 +26,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Ваші 4 модулі для паралельного запуску
         module: [data_load, data_quality_analysis, data_research, visualization]
 
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
+    # МИ ВИДАЛИЛИ if ЗВІДСИ, БО ВІН ТУТ ЛАМАЄ КОД
 
     steps:
       - name: Checkout Repository
@@ -47,15 +46,15 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run module
+        # Перенесли if сюди! Тут змінна matrix вже існує і чудово працює
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
         run: |
-          # Створюємо папку для збереження логів та графіків
           mkdir -p artifacts/${{ matrix.module }}
           echo "Запускаємо модуль ${{ matrix.module }}..."
-          
-          # Запускаємо скрипт. Зберігаємо лог виконання
           python src/${{ matrix.module }}.py > artifacts/${{ matrix.module }}/run.log 2>&1
 
       - name: Upload artifacts
+        if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.module == 'all' || github.event.inputs.module == matrix.module }}
         uses: actions/upload-artifact@v4
         with:
           name: artifacts-${{ matrix.module }}

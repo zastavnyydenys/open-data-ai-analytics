@@ -26,12 +26,14 @@ jobs:
 
       - name: 4. Підготовка папок та запуск
         shell: cmd
+        env:
+          USE_LOCAL_DATA: "true"
         run: |
           if not exist "artifacts\visualization" mkdir "artifacts\visualization"
           if not exist "reports\figures" mkdir "reports\figures"
           
-          echo [LOCAL] Запускаємо візуалізацію...
-          python src\visualization.py > artifacts\visualization\run.log 2>&1 || (type artifacts\visualization\run.log & exit 1)
+          echo [LOCAL] Запускаємо візуалізацію з великим файлом...
+          python src\visualization.py > artifacts\visualization\run.log 2>&1
 
       - name: 5. Збереження результатів (Artifacts)
         if: always()

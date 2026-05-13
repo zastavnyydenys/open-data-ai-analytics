@@ -7,13 +7,16 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-if os.environ.get("CI") == "true":
-    print("[ENV: CI] Використовуємо тестовий датасет.")
+if os.environ.get("USE_LOCAL_DATA") == "true":
+    print("[ENV: SELF-HOSTED] Використовуємо великий локальний датасет.")
+    DEFAULT_PATH = Path("D:/DevOps/open-data-ai-analytics/data/raw/dataset.csv")
+
+elif os.environ.get("CI") == "true":
+    print(" [ENV: CLOUD CI] Використовуємо маленький тестовий датасет.")
     DEFAULT_PATH = BASE_DIR / "data" / "raw" / "test_data.csv"
 else:
-    print("[ENV: LOCAL] Використовуємо повний датасет.")
+    print("[ENV: LOCAL RUN] Запуск вручну з PyCharm.")
     DEFAULT_PATH = BASE_DIR / "data" / "raw" / "dataset.csv"
-
 
 def load_data(file_path=DEFAULT_PATH):
 

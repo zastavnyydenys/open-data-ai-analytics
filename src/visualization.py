@@ -36,6 +36,6 @@ def visualize_data(df):
         print("Колонка BRAND відсутня, неможливо побудувати графік.")
 
 
-if name == "main":
+if __name__ == "__main__":
     data = load_data()
     visualize_data(data)

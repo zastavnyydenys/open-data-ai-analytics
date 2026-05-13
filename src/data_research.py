@@ -56,6 +56,6 @@ def conduct_research(df):
         print("Колонка MAKE_YEAR відсутня у датасеті.")
 
 
-if name == "main":
+if __name__ == "__main__":
     data = load_data()
     conduct_research(data)

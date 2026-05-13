@@ -25,10 +25,10 @@ def visualize_data(df):
         plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
 
-        output_dir = "artifacts"
+        output_dir = os.path.join("artifacts", "visualization")
         os.makedirs(output_dir, exist_ok=True)
 
-        # Зберігаємо графік
+
         output_path = os.path.join(output_dir, "top_10_brands.png")
         plt.savefig(output_path)
         print(f" Графік успішно збережено за шляхом: {output_path}")
